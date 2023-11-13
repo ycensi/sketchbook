@@ -96,8 +96,8 @@ function changeResolution() {
 function setup() {
   // creates a canvas filling the window size
   createCanvas(windowWidth, windowHeight);
-  cols = Math.floor(width / resolution);
-  rows = Math.floor(height / resolution);
+  cols = Math.floor(windowWidth / resolution);
+  rows = Math.floor(windowHeight / resolution);
   grid = create2DArray(cols, rows);
   grid = randomFill2DArray(grid);
 }
