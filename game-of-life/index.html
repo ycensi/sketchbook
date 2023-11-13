@@ -17,14 +17,25 @@
     ></script>
     <script src="./index.js"></script>
     <style>
-      body {
-        margin: 0;
-        padding: 0;
+      .config {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        border-radius: 5px;
       }
     </style>
   </head>
   <body>
-    <input type="number" id="resolutionInput" value="10" placeholder="Enter resolution">
-    <button onclick="changeResolution()">Restart</button>
+    <div class="config">
+      <input
+        type="number"
+        id="resolutionInput"
+        value="10"
+        placeholder="Enter resolution"
+      />
+      <button onclick="changeResolution()">Restart</button>
+    </div>
   </body>
 </html>

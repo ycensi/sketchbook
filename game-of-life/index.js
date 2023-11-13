@@ -1,15 +1,15 @@
 /**
- * Creates a 2D array of the specified size (recursively)
+ * Creates a 2D array of the specified size
  * @param {number} rows Number of rows on the grid
  * @param {number} cols Number of columns on the grid
  * @param {number} initialValue Initial value for each cell
  */
 function create2DArray(rows, cols, initialValue = 0) {
-  if (cols === 0) {
-    return [];
+  let arr = new Array(rows);
+  for (let i = 0; i < arr.length; i++) {
+    arr[i] = new Array(cols).fill(initialValue);
   }
-
-  return [new Array(rows).fill(initialValue), ...create2DArray(rows, cols - 1)];
+  return arr;
 }
 
 /**
@@ -38,15 +38,23 @@ function drawGrid(array) {
     })
   );
 }
+
+/**
+ * Counts the number of neighbors of a cell
+ * @param {number[][]} grid 2D array to count the neighbors
+ * @param {number} x X coordinate of the cell
+ * @param {number} y Y coordinate of the cell
+ * @returns {number} Number of neighbors
+ */
 function countNeighbors(grid, x, y) {
   let sum = 0;
   let cols = grid[0].length;
   let rows = grid.length;
   for (let i = -1; i < 2; i++) {
-    const col = (x + i + cols) % cols;
+    const row = (x + i + rows) % rows;
     for (let j = -1; j < 2; j++) {
-      const row = (y + j + rows) % rows;
-      sum += grid[col][row];
+      const col = (y + j + cols) % cols;
+      sum += grid[row][col];
     }
   }
   sum -= grid[x][y];
@@ -88,15 +96,13 @@ let resolution = 10;
  */
 function changeResolution() {
   const newResolution = document.getElementById('resolutionInput').value;
-  resolution = newResolution;
-  // restarts the game
+  resolution = Math.floor(newResolution);
   setup();
 }
 
 function setup() {
-  // creates a canvas filling the window size
-  createCanvas(windowHeight, windowHeight);
-  cols = Math.floor(windowHeight / resolution);
+  createCanvas(windowWidth, windowHeight);
+  cols = Math.floor(windowWidth / resolution);
   rows = Math.floor(windowHeight / resolution);
   grid = create2DArray(cols, rows);
   grid = randomFill2DArray(grid);
