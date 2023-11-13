@@ -1,2 +1,5 @@
 # sketchbook
-Experiments using P5.js 
+Experiments using Processing and p5.js
+
+## Contents
+  - [Game of Life](./game-of-life/index.html)
