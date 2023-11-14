@@ -24,6 +24,22 @@ function randomFill2DArray(array, probability = 0.5) {
 }
 
 /**
+ * Colors for each number of neighbors of a cell
+ * @type {Object.<string, string>}
+ */
+const colorsByNumberOfNeighbors = {
+  0: '#4B0082',
+  1: '#483D8B',
+  2: '#4169E1',
+  3: '#6495ED',
+  4: '#87CEFA',
+  5: '#ADD8E6',
+  6: '#B0E0E6',
+  7: '#B0C4DE',
+  8: '#B0C4DE',
+};
+
+/**
  * Draws the grid on the canvas
  * @param {number[][]} array 2D array to draw
  */
@@ -31,9 +47,9 @@ function drawGrid(array) {
   array.forEach((row, i) =>
     row.forEach((cell, j) => {
       if (cell === 1) {
-        fill(255);
-        stroke(0);
-        rect(i * resolution, j * resolution, resolution - 1, resolution - 1);
+        fill(colorsByNumberOfNeighbors[countNeighbors(array, i, j)]);
+        // stroke(0);
+        rect(i * resolution, j * resolution, resolution, resolution);
       }
     })
   );
@@ -86,6 +102,20 @@ function nextGeneration(currentGeneration) {
   return nextGeneration;
 }
 
+/**
+ * Fills the square where the mouse is
+ */
+function fillSquare() {
+  const x = Math.floor(mouseX / resolution);
+  const y = Math.floor(mouseY / resolution);
+  if (x >= 0 && x < cols && y >= 0 && y < rows) {
+    grid[x][y] = 1;
+    grid[x + 1][y] = 1;
+    grid[x][y + 1] = 1;
+    grid[x + 1][y + 1] = 1;
+  }
+}
+
 let grid;
 let cols;
 let rows;
@@ -108,8 +138,22 @@ function setup() {
   grid = randomFill2DArray(grid);
 }
 
+function mouseClicked() {
+  fillSquare();
+}
+
+function mouseDragged() {
+  fillSquare();
+}
+
 function draw() {
-  background(0);
+  background(0, 0, 0, 25)
   drawGrid(grid);
   grid = nextGeneration(grid);
+  const x = Math.floor(mouseX / resolution);
+  const y = Math.floor(mouseY / resolution);
+  if (x >= 0 && x < cols && y >= 0 && y < rows) {
+    fill('#6495ED50');
+    rect(x * resolution, y * resolution, resolution * 2, resolution * 2);
+  }
 }
