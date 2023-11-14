@@ -119,13 +119,17 @@ function fillSquare() {
 let grid;
 let cols;
 let rows;
-let resolution = 10;
+let resolution = 6;
 
 /**
  * Changes the resolution of the grid
  */
 function changeResolution() {
   const newResolution = document.getElementById('resolutionInput').value;
+  if (isNaN(newResolution) && newResolution > 1) {
+    alert('Please enter a number greater than 1');
+    return;
+  }
   resolution = Math.floor(newResolution);
   setup();
 }
